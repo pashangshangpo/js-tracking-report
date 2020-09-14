@@ -1,0 +1,12 @@
+{
+  "name": "js-tracking-report",
+  "version": "1.0.1",
+  "description": "一个属性声明式Javascript埋点库",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
