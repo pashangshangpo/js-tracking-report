@@ -366,8 +366,8 @@
         }
       })
     }
-  
-    const submitData = async (attrData, eventType, option = {}) => {
+
+    const saveData = async (attrData, eventType, option = {}) => {
       const data = await config.processData(
         {
           ...getGlobalData(),
@@ -381,7 +381,12 @@
           ...option,
         }
       )
-      const dataList = pushLocalData(data)
+
+      return pushLocalData(data)
+    }
+  
+    const submitData = async (attrData, eventType, option = {}) => {
+      const dataList = await saveData(attrData, eventType, option)
   
       if (!config.submitConditions(dataList)) {
         return
@@ -535,7 +540,7 @@
     return {
       submitData: postData,
       getDataList: getLocalData,
-      pushData: pushLocalData,
+      pushData: saveData,
       emptyData: emptyLocalData,
     }
   }
