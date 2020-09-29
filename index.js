@@ -93,10 +93,31 @@
         }
       }
   
+      const userAgent = navigator.userAgent.toLowerCase()
+      const getVersion = matchFn => {
+        const match = matchFn()
+  
+        return processFn => {
+          return match ? processFn(match) : ''
+        }
+      }
+  
+      const Version = {
+        IE: () => getVersion(() => userAgent.match(/(msie\s|trident.*rv:)([\w.]+)/))(res => res[2]),
+        Chrome: () => getVersion(() => userAgent.match(/chrome\/([\d.]+)/))(res => res[1]),
+        Firefox: () => getVersion(() => userAgent.match(/firefox\/([\d.]+)/))(res => res[1]),
+        Opera: () => getVersion(() => userAgent.match(/opera\/([\d.]+)/))(res => res[1]),
+        Safari: () => getVersion(() => userAgent.match(/version\/([\d.]+)/))(res => res[1]),
+        Edge: () => getVersion(() => userAgent.match(/edge\/([\d.]+)/))(res => res[1]),
+        QQBrowser: () => getVersion(() => userAgent.match(/qqbrowser\/([\d.]+)/))(res => res[1]),
+      }
+  
+      result.version = Version[result.browser] ? Version[result.browser]() : ''
+  
       return result
     }
   
-    const getVersion = os => {
+    const getOsVersion = os => {
       const u = navigator.userAgent
       const osVersion = {
         'Windows': function () {
@@ -149,7 +170,7 @@
   
     return {
       ...osInfo,
-      version: getVersion(osInfo.os),
+      osVersion: getOsVersion(osInfo.os),
     }
   }
   
